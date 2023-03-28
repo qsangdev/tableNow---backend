@@ -3,7 +3,11 @@ import mongoose from 'mongoose'
 const billSchema = new mongoose.Schema ({
     billItems: [{
 
-        name: {type: String, require: true},
+        billID: {type: Number, require: true, unique: true},
+        bookingTableID: {type: Number, require: true, unique: true},
+        staffID: {type: Number, require: true},
+        paymentMethod: {type: String, require: true},
+        paymentTime: {type: Number, require: true},
     }
         
     ]

@@ -10,3 +10,4 @@ router.get("/getAll", userController.getAllUser);
 router.get("/get-details/:id", userController.getDetailsUser);
 
 module.exports = router;
+
