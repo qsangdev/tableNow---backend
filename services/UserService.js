@@ -184,4 +184,3 @@ module.exports = {
   getDetailsUser,
 };
 
-module.exports = createUser

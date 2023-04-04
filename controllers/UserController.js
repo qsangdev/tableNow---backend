@@ -138,7 +138,3 @@ module.exports = {
   getAllUser,
   getDetailsUser,
 };
-
-module.exports ={
-    createUser
-}
