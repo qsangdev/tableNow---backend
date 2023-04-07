@@ -9,5 +9,3 @@ router.get("/get-details/:id", staffController.getDetailsStaff);
 router.delete("/delete-staff/:id", staffController.deleteStaff);
 
 module.exports = router;
-
-module.exports = router
