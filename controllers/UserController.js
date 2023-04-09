@@ -5,7 +5,7 @@ const createUser = async (req, res) => {
     const { Username, email, password, confirmPassword, phone } = req.body;
     const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     const isCheckEmail = reg.test(email);
-    if (!Username || !email || !password || !confirmPassword || !phone) {
+    if (!Username || !email || !password || !confirmPassword || !phone ) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",

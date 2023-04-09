@@ -155,7 +155,7 @@ const deleteProfileRestaurant = (id, data) => {
   });
 };
 
-const deleteImageRestaurant = (id, data) => {
+
   return new Promise(async (resolve, reject) => {
     try {
       const checkProfileRestaurant = await ProfileRestaurant.findOne({
