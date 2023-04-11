@@ -9,3 +9,5 @@ router.delete("/delete-dish/:id", dishController.deleteDish);
 router.get("/get-details-dish/:id", dishController.getDetailsDish);
 
 module.exports = router;
+
+module.exports = router
