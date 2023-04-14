@@ -13,6 +13,10 @@ router.post(
   "/delete-image/:id",
   ProfileRestaurantController.deleteImageRestaurant
 );
+router.post(
+  "/update-time/:id",
+  ProfileRestaurantController.updateTimeRestaurant
+);
 router.put("/update/:id", ProfileRestaurantController.updateProfileRestaurant);
 router.get(
   "/get-details/:id",

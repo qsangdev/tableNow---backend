@@ -1,5 +1,4 @@
 const ProfileRestaurantService = require("../services/ProfileRestaurantService");
-const cloudinary = require("cloudinary").v2;
 
 const createProfileRestaurant = async (req, res) => {
   try {
@@ -8,19 +7,14 @@ const createProfileRestaurant = async (req, res) => {
       // restaurantName,
       // restaurantAddress,
       // restaurantTable,
-      // openTime,
-      // closeTime,
       // restaurantDescribe,
     } = req.body;
 
     if (
       !restaurantID
-
       // !restaurantName ||
       // !restaurantAddress ||
       // !restaurantTable ||
-      // !openTime ||
-      // !closeTime ||
       // !restaurantDescribe
     ) {
       return res.status(200).json({
@@ -52,6 +46,28 @@ const updateProfileRestaurant = async (req, res) => {
       });
     }
     const response = await ProfileRestaurantService.updateProfileRestaurant(
+      profileId,
+      data
+    );
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+const updateTimeRestaurant = async (req, res) => {
+  try {
+    const profileId = req.params.id;
+    const data = req.body.shiftTime;
+    if (!profileId) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileId is required",
+      });
+    }
+    const response = await ProfileRestaurantService.updateTimeRestaurant(
       profileId,
       data
     );
@@ -175,4 +191,5 @@ module.exports = {
   getAllProfileRestaurant,
   uploadImageRestaurant,
   deleteImageRestaurant,
+  updateTimeRestaurant,
 };

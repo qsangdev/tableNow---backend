@@ -2,10 +2,19 @@ const UserService = require("../services/UserService");
 // const jwt = require("jsonwebtoken");
 const createUser = async (req, res) => {
   try {
-    const { Username, email, password, confirmPassword, phone } = req.body;
+    const { Username, email, password, confirmPassword, phone, code } =
+      req.body;
     const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
     const isCheckEmail = reg.test(email);
-    if (!Username || !email || !password || !confirmPassword || !phone ) {
+    if (
+      !Username ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !phone ||
+      !code
+    ) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",
@@ -13,12 +22,22 @@ const createUser = async (req, res) => {
     } else if (!isCheckEmail) {
       return res.status(200).json({
         status: "ERR",
-        message: "The input is email",
+        message: "Invalid email",
       });
     } else if (password !== confirmPassword) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is equal confirmPassword",
+      });
+    } else if (phone.match(regexPhoneNumber) === null) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "Invalid phone number",
+      });
+    } else if (code !== "mindx") {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The security code is incorrect",
       });
     }
 

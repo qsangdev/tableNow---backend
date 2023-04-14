@@ -1,24 +1,16 @@
-const TableService = require("../services/TableSevice");
+const TableService = require("../services/TableService");
 
-// const createTable = async (req, res) => {
-//   try {
-//     const { Tablename, restaurantID, active } = req.body;
-
-//     if (!Tablename || !restaurantID) {
-//       return res.status(200).json({
-//         status: "ERR",
-//         message: "The input is required",
-//       });
-//     }
-
-//     const response = await TableService.createTable(req.body);
-//     return res.status(200).json(response);
-//   } catch (e) {
-//     return res.status(404).json({
-//       message: e,
-//     });
-//   }
-// };
+const createTable = async (req, res) => {
+  try {
+    const response = await TableService.createTable(req.body);
+    return res.status(200).json(response);
+  } catch (e) {
+    console.log(e);
+    return res.status(404).json({
+      message: e.message,
+    });
+  }
+};
 
 const updateTable = async (req, res) => {
   try {
@@ -27,41 +19,17 @@ const updateTable = async (req, res) => {
     if (!tableId) {
       return res.status(200).json({
         status: "ERR",
-        message: "The TableId is required",
+        message: "The tableId is required",
+      });
+    }
+    if (!data) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "Input is required",
       });
     }
 
     const response = await TableService.updateTable(tableId, data);
-    return res.status(200).json(response);
-  } catch (e) {
-    return res.status(404).json({
-      message: e,
-    });
-  }
-};
-
-const deleteTable = async (req, res) => {
-  try {
-    const tableId = req.params.id;
-    if (!tableId) {
-      return res.status(200).json({
-        status: "ERR",
-        message: "The tableId is required",
-      });
-    }
-
-    const response = await TableService.deleteTable(tableId);
-    return res.status(200).json(response);
-  } catch (e) {
-    return res.status(404).json({
-      message: e,
-    });
-  }
-};
-
-const getAllTable = async (req, res) => {
-  try {
-    const response = await TableService.getAllTable();
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({
@@ -89,10 +57,20 @@ const getDetailsTable = async (req, res) => {
   }
 };
 
+const getAllTable = async (req, res) => {
+  try {
+    const response = await TableService.getAllTable();
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
-  // createTable,
+  createTable,
   updateTable,
-  deleteTable,
-  getAllTable,
   getDetailsTable,
+  getAllTable,
 };

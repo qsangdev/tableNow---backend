@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 const tableController = require("../controllers/TableController");
 
-// router.post("/create-table", tableController.createTable);
-router.put("/update-table/:id", tableController.updateTable);
-router.delete("/delete-table/:id", tableController.deleteTable);
-router.get("/getAll-table", tableController.getAllTable);
-router.get("/get-details-table/:id", tableController.getDetailsTable);
+router.get("/getAll", tableController.getAllTable);
+router.post("/create", tableController.createTable);
+router.put("/update/:id", tableController.updateTable);
+router.get("/get-details/:id", tableController.getDetailsTable);
 
 module.exports = router;

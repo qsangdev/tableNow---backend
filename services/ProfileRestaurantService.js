@@ -7,29 +7,18 @@ const createProfileRestaurant = (newProfileRestaurant) => {
       restaurantName,
       restaurantAddress,
       restaurantTable,
-      openTime,
-      closeTime,
       restaurantDescribe,
+      shiftTime,
       images,
     } = newProfileRestaurant;
     try {
-      const checkProfileRestaurant = await ProfileRestaurant.findOne({
-        restaurantName: restaurantName,
-      });
-      if (checkProfileRestaurant !== null) {
-        resolve({
-          status: "ERR",
-          message: "The ProfileRestaurant is already",
-        });
-      }
       const createdProfileRestaurant = await ProfileRestaurant.create({
         restaurantID,
         restaurantName,
         restaurantAddress,
         restaurantTable,
-        openTime,
-        closeTime,
         restaurantDescribe,
+        shiftTime,
         images,
       });
       if (createdProfileRestaurant) {
@@ -51,6 +40,7 @@ const updateProfileRestaurant = (id, data) => {
       const checkProfileRestaurant = await ProfileRestaurant.findOne({
         _id: id,
       });
+
       if (checkProfileRestaurant === null) {
         resolve({
           status: "ERR",
@@ -62,6 +52,39 @@ const updateProfileRestaurant = (id, data) => {
         id,
         data,
         { new: true }
+      );
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateProfileRestaurant,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const updateTimeRestaurant = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkProfileRestaurant = await ProfileRestaurant.findOne({
+        _id: id,
+      });
+      if (checkProfileRestaurant === null) {
+        resolve({
+          status: "ERR",
+          message: "The ProfileRestaurant is not defined",
+        });
+      }
+      const updateProfileRestaurant = await ProfileRestaurant.updateOne(
+        { _id: id, "shiftTime.shift": data[0].shift },
+        {
+          $set: {
+            "shiftTime.$.timeStart": data[0].timeStart,
+            "shiftTime.$.timeEnd": data[0].timeEnd,
+          },
+        }
       );
 
       resolve({
@@ -89,7 +112,7 @@ const uploadImageRestaurant = (id, data) => {
       }
 
       const updateProfileRestaurant = await ProfileRestaurant.findOneAndUpdate(
-        id,
+        { _id: id },
         { $push: { images: data } },
         { new: true }
       );
@@ -256,4 +279,5 @@ module.exports = {
   getAllProfileRestaurant,
   uploadImageRestaurant,
   deleteImageRestaurant,
+  updateTimeRestaurant,
 };
