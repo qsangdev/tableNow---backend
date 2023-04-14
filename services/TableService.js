@@ -24,16 +24,6 @@ const createTable = (newTable) => {
 const updateTable = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkTable = await Table.findOne({
-        restaurantID: id,
-      });
-      if (checkTable === null) {
-        resolve({
-          status: "ERR",
-          message: "The Table is not defined",
-        });
-      }
-
       const updateTable = await Table.findOneAndUpdate(id, data, {
         new: true,
       });

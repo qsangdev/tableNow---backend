@@ -4,7 +4,7 @@ const tableSchema = new mongoose.Schema(
     restaurantID: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: "ProfileRestaurant",
     },
     tables: [
       {
