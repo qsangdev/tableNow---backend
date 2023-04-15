@@ -15,7 +15,7 @@ const createTable = async (req, res) => {
 const updateTable = async (req, res) => {
   try {
     const tableId = req.params.id;
-    const data = req.body;
+    const data = req.body.tables;
     if (!tableId) {
       return res.status(200).json({
         status: "ERR",
@@ -68,9 +68,55 @@ const getAllTable = async (req, res) => {
   }
 };
 
+const deleteTable = async (req, res) => {
+  try {
+    const profileId = req.params.id;
+    const data = req.body.tables;
+    if (!profileId) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileId is required",
+      });
+    }
+    const response = await TableService.deleteTable(
+      profileId,
+      data
+    );
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+const updateTableMM = async (req, res) => {
+  try {
+    const profileId = req.params.id;
+    const data = req.body.tables;
+    if (!profileId) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileId is required",
+      });
+    }
+    const response = await TableService.updateTableMM(
+      profileId,
+      data
+    );
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   createTable,
   updateTable,
   getDetailsTable,
   getAllTable,
+  deleteTable,
+  updateTableMM
 };

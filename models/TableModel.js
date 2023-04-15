@@ -10,6 +10,8 @@ const tableSchema = new mongoose.Schema(
       {
         shift: Number,
         name: String,
+        minPeople: Number,
+        maxPeople: Number,
         status: String,
       },
     ],

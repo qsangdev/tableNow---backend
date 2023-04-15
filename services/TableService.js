@@ -24,9 +24,17 @@ const createTable = (newTable) => {
 const updateTable = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const updateTable = await Table.findOneAndUpdate(id, data, {
-        new: true,
-      });
+      const updateTable = await Table.findOneAndUpdate(
+        { restaurantID: id },
+        {
+          $set: {
+            tables: data,
+          },
+        },
+        {
+          new: true,
+        }
+      );
 
       resolve({
         status: "OK",
@@ -67,7 +75,7 @@ const deleteTable = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const checkTable = await Table.findOne({
-        _id: id,
+        restaurantID: id,
       });
       if (checkTable === null) {
         resolve({
@@ -76,12 +84,20 @@ const deleteTable = (id, data) => {
         });
       }
 
-      await Table.findByIdAndDelete(id);
-
+      const updateTable = await Table.updateOne(
+        { restaurantID: id },
+        {
+          $pull: {
+            tables: {
+              name: data[0].name,
+            },
+          },
+        }
+      );
       resolve({
         status: "OK",
         message: "DELETE SUCCESS",
-        data: deleteTable,
+        data: updateTable,
       });
     } catch (e) {
       reject(e);
@@ -104,10 +120,39 @@ const getAllTable = (id) => {
   });
 };
 
+const updateTableMM = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateTable = await Table.updateOne(
+        { "tables.name": data[0].name },
+        {
+          $set: {
+            "tables.$[e].minPeople": data[0].minPeople,
+            "tables.$[e].maxPeople": data[0].maxPeople,
+          },
+        },
+        {
+          arrayFilters: [{ "e.name": data[0].name }],
+          multi: true,
+        }
+      );
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateTable,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createTable,
   updateTable,
   getDetailsTable,
   deleteTable,
   getAllTable,
+  updateTableMM,
 };
