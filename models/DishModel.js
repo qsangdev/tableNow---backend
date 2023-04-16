@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 const dishSchema = new mongoose.Schema(
   {
-    dishName: { type: String, required: true },
     restaurantID: {
       type: mongoose.Schema.Types.ObjectId,
+      required: true,
       ref: "ProfileRestaurant",
     },
+    dishName: { type: String, required: true },
     dishType: { type: String, required: true },
     dishDescribe: { type: String, required: true },
-    dishImage: { type: String, required: true },
-    dishQuantity: { type: Number, required: true },
+    dishImage: [{ type: String, required: true }],
     dishPrice: { type: Number, required: true },
-    dishDiscount: { type: String, required: true },
+    dishDiscount: { type: Number, required: true },
   },
   {
     timestamps: true,

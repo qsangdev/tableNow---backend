@@ -3,11 +3,11 @@ const Dish = require("../models/DishModel");
 const createDish = (newDish) => {
   return new Promise(async (resolve, reject) => {
     const {
+      restaurantID,
       dishName,
       dishType,
       dishDescribe,
       dishImage,
-      dishQuantity,
       dishPrice,
       dishDiscount,
     } = newDish;
@@ -23,11 +23,11 @@ const createDish = (newDish) => {
       }
 
       const createdDish = await Dish.create({
+        restaurantID,
         dishName,
         dishType,
         dishDescribe,
         dishImage,
-        dishQuantity,
         dishPrice,
         dishDiscount,
       });
@@ -47,16 +47,6 @@ const createDish = (newDish) => {
 const updateDish = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkDish = await Dish.findOne({
-        _id: id,
-      });
-      if (checkDish === null) {
-        resolve({
-          status: "ERR",
-          message: "The dish is not defined",
-        });
-      }
-
       const updateDish = await Dish.findByIdAndUpdate(id, data, { new: true });
 
       resolve({
@@ -73,16 +63,6 @@ const updateDish = (id, data) => {
 const deleteDish = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkDish = await Dish.findOne({
-        _id: id,
-      });
-      if (checkDish === null) {
-        resolve({
-          status: "ERR",
-          message: "The dish is not defined",
-        });
-      }
-
       await Dish.findByIdAndDelete(id);
 
       resolve({
@@ -125,6 +105,30 @@ const getAllDish = (limit, page) => {
   });
 };
 
+const getResDish = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const profile = await Dish.find({
+        restaurantID: id,
+      });
+      if (profile === null) {
+        resolve({
+          status: "ERR",
+          message: "The profile is not defined",
+        });
+      }
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: profile,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 const getDetailsDish = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -132,14 +136,36 @@ const getDetailsDish = (id, data) => {
       if (dish === null) {
         resolve({
           status: "ERR",
-          message: "The dish is not defined",
+          message: "The profile is not defined",
         });
       }
 
       resolve({
         status: "OK",
         message: "SUCCESS",
-        data: dish,
+        data: profile,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const uploadImageDish = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateProfileRestaurant = await Dish.findByIdAndUpdate(
+        id,
+        { dishImage: data },
+        {
+          new: true,
+        }
+      );
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateProfileRestaurant,
       });
     } catch (e) {
       reject(e);
@@ -152,5 +178,7 @@ module.exports = {
   updateDish,
   deleteDish,
   getAllDish,
+  getResDish,
   getDetailsDish,
+  uploadImageDish,
 };

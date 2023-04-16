@@ -2,21 +2,9 @@ const ProfileRestaurantService = require("../services/ProfileRestaurantService")
 
 const createProfileRestaurant = async (req, res) => {
   try {
-    const {
-      restaurantID,
-      // restaurantName,
-      // restaurantAddress,
-      // restaurantTable,
-      // restaurantDescribe,
-    } = req.body;
+    const { restaurantID } = req.body;
 
-    if (
-      !restaurantID
-      // !restaurantName ||
-      // !restaurantAddress ||
-      // !restaurantTable ||
-      // !restaurantDescribe
-    ) {
+    if (!restaurantID) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",

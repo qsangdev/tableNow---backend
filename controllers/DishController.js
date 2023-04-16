@@ -3,21 +3,19 @@ const DishService = require("../services/DishService");
 const createDish = async (req, res) => {
   try {
     const {
+      restaurantID,
       dishName,
       dishType,
       dishDescribe,
-      dishImage,
-      dishQuantity,
       dishPrice,
       dishDiscount,
     } = req.body;
 
     if (
+      !restaurantID ||
       !dishName ||
       !dishType ||
       !dishDescribe ||
-      !dishImage ||
-      !dishQuantity ||
       !dishPrice ||
       !dishDiscount
     ) {
@@ -37,16 +35,16 @@ const createDish = async (req, res) => {
 
 const updateDish = async (req, res) => {
   try {
-    const dishId = req.params.id;
+    const profileID = req.params.id;
     const data = req.body;
-    if (!dishId) {
+    if (!profileID) {
       return res.status(200).json({
         status: "ERR",
-        message: "The dishId is required",
+        message: "The profileID is required",
       });
     }
 
-    const response = await DishService.updateDish(dishId, data);
+    const response = await DishService.updateDish(profileID, data);
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({
@@ -57,15 +55,15 @@ const updateDish = async (req, res) => {
 
 const deleteDish = async (req, res) => {
   try {
-    const dishId = req.params.id;
-    if (!dishId) {
+    const profileID = req.params.id;
+    if (!profileID) {
       return res.status(200).json({
         status: "ERR",
-        message: "The dishId is required",
+        message: "The profileID is required",
       });
     }
 
-    const response = await DishService.deleteDish(dishId);
+    const response = await DishService.deleteDish(profileID);
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({
@@ -90,18 +88,63 @@ const getAllDish = async (req, res) => {
   }
 };
 
-const getDetailsDish = async (req, res) => {
+const getResDish = async (req, res) => {
   try {
-    const dishId = req.params.id;
-
-    if (!dishId) {
+    const profileID = req.params.id;
+    if (!profileID) {
       return res.status(200).json({
         status: "ERR",
-        message: "The dishId is required",
+        message: "The profileID is required",
       });
     }
 
-    const response = await DishService.getDetailsDish(dishId);
+    const response = await DishService.getResDish(profileID);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+
+
+const getDetailsDish = async (req, res) => {
+  try {
+    const profileID = req.params.id;
+    if (!profileID) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileID is required",
+      });
+    }
+
+    const response = await DishService.getDetailsDish(profileID);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+
+const uploadImageDish = async (req, res) => {
+  try {
+    const profileId = req.params.id;
+    const fileData = req.file;
+    const data = fileData?.path;
+    if (!fileData) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "Missing image",
+      });
+    }
+
+    const response = await DishService.uploadImageDish(
+      profileId,
+      data
+    );
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({
@@ -115,5 +158,7 @@ module.exports = {
   updateDish,
   deleteDish,
   getAllDish,
+  getResDish,
   getDetailsDish,
+  uploadImageDish
 };
