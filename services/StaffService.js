@@ -1,4 +1,7 @@
 const Staff = require("../models/StaffModel");
+const bcrypt = require("bcrypt");
+const { genneralAccessToken } = require("./JwtService");
+const { genneralRefreshToken } = require("./JwtService");
 
 const createStaff = (newStaff) => {
   return new Promise(async (resolve, reject) => {
@@ -9,7 +12,7 @@ const createStaff = (newStaff) => {
       accountPassword,
       staffPhone,
       staffName,
-      //   photo,
+      staffPhoto,
     } = newStaff;
     try {
       const checkStaff = await Staff.findOne({
@@ -21,14 +24,15 @@ const createStaff = (newStaff) => {
           message: "The Staff is already",
         });
       }
+      const hash = bcrypt.hashSync(accountPassword, 10);
       const createdStaff = await Staff.create({
         restaurantID,
         staffSex,
         accountName,
-        accountPassword,
+        accountPassword: hash,
         staffPhone,
         staffName,
-        // photo,
+        staffPhoto,
       });
       if (createdStaff) {
         resolve({
@@ -43,11 +47,12 @@ const createStaff = (newStaff) => {
   });
 };
 
-const updateStaff = (id, data) => {
+const loginStaff = (StaffLogin) => {
   return new Promise(async (resolve, reject) => {
+    const { accountName, accountPassword } = StaffLogin;
     try {
       const checkStaff = await Staff.findOne({
-        _id: id,
+        accountName: accountName,
       });
       if (checkStaff === null) {
         resolve({
@@ -55,7 +60,43 @@ const updateStaff = (id, data) => {
           message: "The Staff is not defined",
         });
       }
+      const comparePassword = bcrypt.compareSync(
+        accountPassword,
+        checkStaff.accountPassword
+      );
 
+      if (!comparePassword) {
+        resolve({
+          status: "ERR",
+          message: "The password or Staff is not incorrect",
+        });
+      }
+      const access_token = await genneralAccessToken({
+        id: checkStaff.id,
+        isAdmin: checkStaff.isAdmin,
+      });
+
+      const refresh_token = await genneralRefreshToken({
+        id: checkStaff.id,
+        isAdmin: checkStaff.isAdmin,
+      });
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        access_token,
+        refresh_token,
+        id: checkStaff._id,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const updateStaff = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
       const updateStaff = await Staff.findByIdAndUpdate(id, data, {
         new: true,
       });
@@ -76,6 +117,30 @@ const getDetailsStaff = (id, data) => {
     try {
       const profile = await Staff.findOne({
         _id: id,
+      });
+      if (profile === null) {
+        resolve({
+          status: "ERR",
+          message: "The profile is not defined",
+        });
+      }
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: profile,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getResStaff = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const profile = await Staff.find({
+        restaurantID: id,
       });
       if (profile === null) {
         resolve({
@@ -136,10 +201,35 @@ const getAllStaff = () => {
   });
 };
 
+const uploadImageStaff = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateProfileRestaurant = await Staff.findByIdAndUpdate(
+        id,
+        { staffPhoto: data },
+        {
+          new: true,
+        }
+      );
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateProfileRestaurant,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createStaff,
+  loginStaff,
   updateStaff,
   getDetailsStaff,
   deleteStaff,
   getAllStaff,
+  getResStaff,
+  uploadImageStaff
 };

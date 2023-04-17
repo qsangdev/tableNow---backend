@@ -11,6 +11,7 @@ const staffSchema = new mongoose.Schema(
     staffSex: { type: String, required: true },
     accountName: { type: String, required: true },
     accountPassword: { type: String, required: true },
+    staffPhoto: { type: String, require: true },
   },
   {
     timestamps: true,
