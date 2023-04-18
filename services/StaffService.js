@@ -15,15 +15,6 @@ const createStaff = (newStaff) => {
       staffPhoto,
     } = newStaff;
     try {
-      const checkStaff = await Staff.findOne({
-        accountName: accountName,
-      });
-      if (checkStaff !== null) {
-        resolve({
-          status: "ERR",
-          message: "The Staff is already",
-        });
-      }
       const hash = bcrypt.hashSync(accountPassword, 10);
       const createdStaff = await Staff.create({
         restaurantID,
@@ -231,5 +222,5 @@ module.exports = {
   deleteStaff,
   getAllStaff,
   getResStaff,
-  uploadImageStaff
+  uploadImageStaff,
 };

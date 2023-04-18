@@ -10,6 +10,9 @@ const createProfileRestaurant = (newProfileRestaurant) => {
       restaurantDescribe,
       shiftTime,
       images,
+      active,
+      rating,
+      maxDiscount
     } = newProfileRestaurant;
     try {
       const createdProfileRestaurant = await ProfileRestaurant.create({
@@ -20,6 +23,9 @@ const createProfileRestaurant = (newProfileRestaurant) => {
         restaurantDescribe,
         shiftTime,
         images,
+        active,
+        rating,
+        maxDiscount
       });
       if (createdProfileRestaurant) {
         resolve({
@@ -58,7 +64,7 @@ const updateTimeRestaurant = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const updateProfileRestaurant = await ProfileRestaurant.updateOne(
-        { "shiftTime.shift": data[0].shift },
+        { _id: id, "shiftTime.shift": data[0].shift },
         {
           $set: {
             "shiftTime.$.timeStart": data[0].timeStart,

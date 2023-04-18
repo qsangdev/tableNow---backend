@@ -124,7 +124,7 @@ const updateTableMM = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const updateTable = await Table.updateOne(
-        { "tables.name": data[0].name },
+        { restaurantID: id, "tables.name": data[0].name },
         {
           $set: {
             "tables.$[e].minPeople": data[0].minPeople,

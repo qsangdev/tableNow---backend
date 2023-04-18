@@ -12,6 +12,9 @@ const profileSchema = new mongoose.Schema(
     shiftTime: [{ shift: Number, timeStart: String, timeEnd: String }],
     restaurantDescribe: { type: String, required: true },
     images: [{ type: String, required: true }],
+    active: { type: Boolean, require: true, default: false },
+    rating: { type: Number },
+    maxDiscount: { type: Number },
   },
   {
     timestamps: true,

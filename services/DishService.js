@@ -12,16 +12,6 @@ const createDish = (newDish) => {
       dishDiscount,
     } = newDish;
     try {
-      const checkDish = await Dish.findOne({
-        dishName: dishName,
-      });
-      if (checkDish !== null) {
-        resolve({
-          status: "ERR",
-          message: "The dish is already",
-        });
-      }
-
       const createdDish = await Dish.create({
         restaurantID,
         dishName,
