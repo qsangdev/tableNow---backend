@@ -15,6 +15,8 @@ const profileSchema = new mongoose.Schema(
     active: { type: Boolean, require: true, default: false },
     rating: { type: Number },
     maxDiscount: { type: Number },
+    latitude: { type: String },
+    longitude: { type: String },
   },
   {
     timestamps: true,

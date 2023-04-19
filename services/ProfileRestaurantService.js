@@ -12,7 +12,9 @@ const createProfileRestaurant = (newProfileRestaurant) => {
       images,
       active,
       rating,
-      maxDiscount
+      maxDiscount,
+      latitude,
+      longitude,
     } = newProfileRestaurant;
     try {
       const createdProfileRestaurant = await ProfileRestaurant.create({
@@ -25,7 +27,9 @@ const createProfileRestaurant = (newProfileRestaurant) => {
         images,
         active,
         rating,
-        maxDiscount
+        maxDiscount,
+        latitude,
+        longitude,
       });
       if (createdProfileRestaurant) {
         resolve({
