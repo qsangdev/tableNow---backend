@@ -7,29 +7,30 @@ const createProfileRestaurant = (newProfileRestaurant) => {
       restaurantName,
       restaurantAddress,
       restaurantTable,
+      openTime,
+      closeTime,
       restaurantDescribe,
-      shiftTime,
       images,
-      active,
-      rating,
-      maxDiscount,
-      latitude,
-      longitude,
     } = newProfileRestaurant;
     try {
+      const checkProfileRestaurant = await ProfileRestaurant.findOne({
+        restaurantName: restaurantName,
+      });
+      if (checkProfileRestaurant !== null) {
+        resolve({
+          status: "ERR",
+          message: "The ProfileRestaurant is already",
+        });
+      }
       const createdProfileRestaurant = await ProfileRestaurant.create({
         restaurantID,
         restaurantName,
         restaurantAddress,
         restaurantTable,
+        openTime,
+        closeTime,
         restaurantDescribe,
-        shiftTime,
         images,
-        active,
-        rating,
-        maxDiscount,
-        latitude,
-        longitude,
       });
       if (createdProfileRestaurant) {
         resolve({
@@ -47,6 +48,16 @@ const createProfileRestaurant = (newProfileRestaurant) => {
 const updateProfileRestaurant = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const checkProfileRestaurant = await ProfileRestaurant.findOne({
+        _id: id,
+      });
+      if (checkProfileRestaurant === null) {
+        resolve({
+          status: "ERR",
+          message: "The ProfileRestaurant is not defined",
+        });
+      }
+
       const updateProfileRestaurant = await ProfileRestaurant.findByIdAndUpdate(
         id,
         data,
@@ -64,35 +75,21 @@ const updateProfileRestaurant = (id, data) => {
   });
 };
 
-const updateTimeRestaurant = (id, data) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const updateProfileRestaurant = await ProfileRestaurant.updateOne(
-        { _id: id, "shiftTime.shift": data[0].shift },
-        {
-          $set: {
-            "shiftTime.$.timeStart": data[0].timeStart,
-            "shiftTime.$.timeEnd": data[0].timeEnd,
-          },
-        }
-      );
-
-      resolve({
-        status: "OK",
-        message: "SUCCESS",
-        data: updateProfileRestaurant,
-      });
-    } catch (e) {
-      reject(e);
-    }
-  });
-};
-
 const uploadImageRestaurant = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const checkProfileRestaurant = await ProfileRestaurant.findOne({
+        _id: id,
+      });
+      if (checkProfileRestaurant === null) {
+        resolve({
+          status: "ERR",
+          message: "The ProfileRestaurant is not defined",
+        });
+      }
+
       const updateProfileRestaurant = await ProfileRestaurant.findOneAndUpdate(
-        { restaurantID: id },
+        id,
         { $push: { images: data } },
         { new: true }
       );
@@ -136,7 +133,7 @@ const deleteProfileRestaurant = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const checkProfileRestaurant = await ProfileRestaurant.findOne({
-        restaurantID: id,
+        _id: id,
       });
       if (checkProfileRestaurant === null) {
         resolve({
@@ -158,11 +155,21 @@ const deleteProfileRestaurant = (id, data) => {
   });
 };
 
-
+const deleteImageRestaurant = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const checkProfileRestaurant = await ProfileRestaurant.findOne({
+        _id: id,
+      });
+      if (checkProfileRestaurant === null) {
+        resolve({
+          status: "ERR",
+          message: "The ProfileRestaurant is not defined",
+        });
+      }
+
       const updateProfileRestaurant = await ProfileRestaurant.updateOne(
-        { restaurantID: id },
+        { _id: id },
         {
           $pull: {
             images: data,
@@ -235,6 +242,30 @@ const getAllProfileRestaurant = (limit, page, filter) => {
       //   pageCurrent: Number(page + 1),
       //   totalPage: Math.ceil(totalProfile / limit),
       // });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const updateTimeRestaurant = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateProfileRestaurant = await ProfileRestaurant.updateOne(
+        { _id: id, "shiftTime.shift": data[0].shift },
+        {
+          $set: {
+            "shiftTime.$.timeStart": data[0].timeStart,
+            "shiftTime.$.timeEnd": data[0].timeEnd,
+          },
+        }
+      );
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateProfileRestaurant,
+      });
     } catch (e) {
       reject(e);
     }

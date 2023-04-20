@@ -112,11 +112,34 @@ const updateTableMM = async (req, res) => {
   }
 };
 
+const updateTableStatus = async (req, res) => {
+  try {
+    const profileId = req.params.id;
+    const data = req.body.tables;
+    if (!profileId) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileId is required",
+      });
+    }
+    const response = await TableService.updateTableStatus(
+      profileId,
+      data
+    );
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   createTable,
   updateTable,
   getDetailsTable,
   getAllTable,
   deleteTable,
-  updateTableMM
+  updateTableMM,
+  updateTableStatus
 };

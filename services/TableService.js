@@ -148,6 +148,29 @@ const updateTableMM = (id, data) => {
   });
 };
 
+const updateTableStatus = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateTable = await Table.updateOne(
+        { restaurantID: id, "tables._id": data[0]._id },
+        {
+          $set: {
+            "tables.$.status": data[0].status,
+          },
+        },
+      );
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateTable,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createTable,
   updateTable,
@@ -155,4 +178,5 @@ module.exports = {
   deleteTable,
   getAllTable,
   updateTableMM,
+  updateTableStatus
 };

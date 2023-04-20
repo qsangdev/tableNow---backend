@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const profileSchema = new mongoose.Schema(
   {
-    userID: {
+    restaurantID: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",

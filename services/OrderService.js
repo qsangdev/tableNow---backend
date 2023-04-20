@@ -3,33 +3,40 @@ const Order = require("../models/OrderModel");
 const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
     const {
+      restaurantID,
       guestName,
       guestPhone,
       dateOrder,
       numberOfPeople,
       timeOrder,
       tableName,
+      completed,
+      cancelled,
     } = newOrder;
     try {
       const checkOrder = await Order.findOne({
         guestName: guestName,
         guestPhone: guestPhone,
         timeOrder: timeOrder,
+        tableName: tableName,
       });
       if (checkOrder !== null) {
-        resolve({
+        return resolve({
           status: "ERR",
           message: "The order is already",
         });
       }
 
       const createdOrder = await Order.create({
+        restaurantID,
         guestName,
         guestPhone,
         dateOrder,
         numberOfPeople,
         timeOrder,
         tableName,
+        completed,
+        cancelled,
       });
       if (createdOrder) {
         resolve({
@@ -44,53 +51,17 @@ const createOrder = (newOrder) => {
   });
 };
 
-// const updateOrder = (id, data) => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       const checkOrder = await Order.findOne({
-//         _id: id,
-//       });
-//       if (checkOrder === null) {
-//         resolve({
-//           status: "ERR",
-//           message: "The Order is not defined",
-//         });
-//       }
-
-//       const updatedOrder = await Order.findByIdAndUpdate(id, data, {
-//         new: true,
-//       });
-
-//       resolve({
-//         status: "OK",
-//         message: "SUCCESS",
-//         data: updateOrder,
-//       });
-//     } catch (e) {
-//       reject(e);
-//     }
-//   });
-// };
-
-const deleteOrder = (id, data) => {
+const updateOrder = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkOrder = await Order.findOne({
-        _id: id,
+      const updateOrder = await Order.findByIdAndUpdate(id, data, {
+        new: true,
       });
-      if (checkOrder === null) {
-        resolve({
-          status: "ERR",
-          message: "The Order is not defined",
-        });
-      }
-
-      await Order.findByIdAndDelete(id);
 
       resolve({
         status: "OK",
-        message: "DELETE SUCCESS",
-        data: deleteOrder,
+        message: "SUCCESS",
+        data: updateOrder,
       });
     } catch (e) {
       reject(e);
@@ -139,7 +110,7 @@ const getDetailsOrder = (id, data) => {
 
 module.exports = {
   createOrder,
-  deleteOrder,
+  updateOrder,
   getAllOrder,
   getDetailsOrder,
 };

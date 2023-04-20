@@ -1,8 +1,9 @@
-const OrderService = require("../services/OrderSevice");
+const OrderService = require("../services/OrderService");
 
 const createOrder = async (req, res) => {
   try {
     const {
+      restaurantID,
       guestName,
       guestPhone,
       dateOrder,
@@ -11,6 +12,7 @@ const createOrder = async (req, res) => {
       tableName,
     } = req.body;
     if (
+      !restaurantID ||
       !guestName ||
       !guestPhone ||
       !dateOrder ||
@@ -33,37 +35,20 @@ const createOrder = async (req, res) => {
   }
 };
 
-// const updateOrder = async (req, res) => {
-//   try {
-//     const orderId = req.params.id;
-//     const data = req.body;
-//     if (!orderId) {
-//       return res.status(200).json({
-//         status: "ERR",
-//         message: "The OrderId is required",
-//       });
-//     }
-
-//     const response = await OrderService.updateOrder(orderId, data);
-//     return res.status(200).json(response);
-//   } catch (e) {
-//     return res.status(404).json({
-//       message: e,
-//     });
-//   }
-// };
-
-const deleteOrder = async (req, res) => {
+const updateOrder = async (req, res) => {
   try {
-    const orderId = req.params.id;
-    if (!orderId) {
+    const profileId = req.params.id;
+    const data = req.body;
+    if (!profileId) {
       return res.status(200).json({
         status: "ERR",
-        message: "The orderId is required",
+        message: "The profileId is required",
       });
     }
-
-    const response = await OrderService.deleteOrder(orderId);
+    const response = await OrderService.updateOrder(
+      profileId,
+      data
+    );
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({
@@ -104,7 +89,7 @@ const getDetailsOrder = async (req, res) => {
 
 module.exports = {
   createOrder,
-  deleteOrder,
+  updateOrder,
   getAllOrder,
   getDetailsOrder,
 };
