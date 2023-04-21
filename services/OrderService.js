@@ -87,8 +87,8 @@ const getAllOrder = () => {
 const getDetailsOrder = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const order = await Order.findOne({
-        _id: id,
+      const order = await Order.find({
+        restaurantID: id,
       });
       if (order === null) {
         resolve({

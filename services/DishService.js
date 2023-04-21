@@ -122,7 +122,7 @@ const getResDish = (id, data) => {
 const getDetailsDish = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const dish = await Dish.findById(id).populate("_id", "restaurantName");
+      const dish = await Dish.findOne({ _id: id });
       if (dish === null) {
         resolve({
           status: "ERR",
@@ -133,7 +133,7 @@ const getDetailsDish = (id, data) => {
       resolve({
         status: "OK",
         message: "SUCCESS",
-        data: profile,
+        data: dish,
       });
     } catch (e) {
       reject(e);
