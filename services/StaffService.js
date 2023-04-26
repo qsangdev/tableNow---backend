@@ -77,7 +77,8 @@ const loginStaff = (StaffLogin) => {
         message: "SUCCESS",
         access_token,
         refresh_token,
-        id: checkStaff._id,
+        id: checkStaff.restaurantID,
+        staffID: checkStaff._id
       });
     } catch (e) {
       reject(e);

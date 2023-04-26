@@ -19,6 +19,7 @@ const createOrder = (newOrder) => {
         guestPhone: guestPhone,
         timeOrder: timeOrder,
         tableName: tableName,
+        cancelled: false,
       });
       if (checkOrder !== null) {
         return resolve({
