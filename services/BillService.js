@@ -9,7 +9,7 @@ const createBill = (newBill) => {
       totalPay,
       restaurantID,
       orderID,
-      dishID,
+      orderList,
     } = newBill;
     try {
       const checkBill = await Bill.findOne({
@@ -30,7 +30,7 @@ const createBill = (newBill) => {
         totalPay,
         restaurantID,
         orderID,
-        dishID,
+        orderList,
       });
       if (createdBill) {
         resolve({
@@ -44,32 +44,6 @@ const createBill = (newBill) => {
     }
   });
 };
-
-// const updateBill = (id, data) => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       const checkBill = await Bill.findOne({
-//         _id: id,
-//       });
-//       if (checkBill === null) {
-//         resolve({
-//           status: "ERR",
-//           message: "The Bill is not defined",
-//         });
-//       }
-
-//       const updatedBill = await Bill.findByIdAndUpdate(id, data, { new: true });
-
-//       resolve({
-//         status: "OK",
-//         message: "SUCCESS",
-//         data: updateBill,
-//       });
-//     } catch (e) {
-//       reject(e);
-//     }
-//   });
-// };
 
 const deleteBill = (id, data) => {
   return new Promise(async (resolve, reject) => {

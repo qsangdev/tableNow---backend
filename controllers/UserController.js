@@ -71,7 +71,7 @@ const loginUser = async (req, res) => {
       //   { expiresIn: "365d" }
       // );
 
-      return res.status(200).json({ response, accessTokene });
+      return res.status(200).json(response);
     }
   } catch (e) {
     return res.status(404).json({

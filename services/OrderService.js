@@ -19,6 +19,7 @@ const createOrder = (newOrder) => {
         guestPhone: guestPhone,
         timeOrder: timeOrder,
         tableName: tableName,
+        cancelled: false,
       });
       if (checkOrder !== null) {
         return resolve({
@@ -87,8 +88,8 @@ const getAllOrder = () => {
 const getDetailsOrder = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const order = await Order.findOne({
-        _id: id,
+      const order = await Order.find({
+        restaurantID: id,
       });
       if (order === null) {
         resolve({

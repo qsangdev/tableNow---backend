@@ -156,6 +156,7 @@ const updateTableStatus = (id, data) => {
         {
           $set: {
             "tables.$.status": data[0].status,
+            "tables.$.orderID": data[0].orderID,
           },
         },
       );

@@ -8,6 +8,11 @@ const tableSchema = new mongoose.Schema(
     },
     tables: [
       {
+        orderID: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "Order",
+        },
         shift: Number,
         name: String,
         minPeople: Number,

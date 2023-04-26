@@ -133,7 +133,7 @@ const getDetailsDish = (id, data) => {
       resolve({
         status: "OK",
         message: "SUCCESS",
-        data: profile,
+        data: dish,
       });
     } catch (e) {
       reject(e);

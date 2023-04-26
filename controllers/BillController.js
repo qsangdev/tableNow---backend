@@ -1,4 +1,4 @@
-const BillService = require("../services/BillSevice");
+const BillService = require("../services/BillService");
 
 const createBill = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ const createBill = async (req, res) => {
       totalPay,
       restaurantID,
       orderID,
-      dishID,
+      orderList,
     } = req.body;
     if (
       !tableID ||
@@ -18,7 +18,7 @@ const createBill = async (req, res) => {
       !totalPay ||
       !restaurantID ||
       !orderID ||
-      !dishID
+      !orderList
     ) {
       return res.status(200).json({
         status: "ERR",
@@ -34,26 +34,6 @@ const createBill = async (req, res) => {
     });
   }
 };
-
-// const updateBill = async (req, res) => {
-//   try {
-//     const billId = req.params.id;
-//     const data = req.body;
-//     if (!billId) {
-//       return res.status(200).json({
-//         status: "ERR",
-//         message: "The billId is required",
-//       });
-//     }
-
-//     const response = await BillService.updateBill(billId, data);
-//     return res.status(200).json(response);
-//   } catch (e) {
-//     return res.status(404).json({
-//       message: e,
-//     });
-//   }
-// };
 
 const deleteBill = async (req, res) => {
   try {
