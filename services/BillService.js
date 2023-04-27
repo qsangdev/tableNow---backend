@@ -12,17 +12,6 @@ const createBill = (newBill) => {
       orderList,
     } = newBill;
     try {
-      const checkBill = await Bill.findOne({
-        tableID: tableID,
-        restaurantID: restaurantID,
-        orderID: orderID,
-      });
-      if (checkBill !== null) {
-        resolve({
-          status: "ERR",
-          message: "The bill is already",
-        });
-      }
       const createdBill = await Bill.create({
         tableID,
         staffID,

@@ -4,6 +4,7 @@ const createOrder = async (req, res) => {
   try {
     const {
       restaurantID,
+      tableID,
       guestName,
       guestPhone,
       dateOrder,
@@ -13,6 +14,7 @@ const createOrder = async (req, res) => {
     } = req.body;
     if (
       !restaurantID ||
+      !tableID ||
       !guestName ||
       !guestPhone ||
       !dateOrder ||

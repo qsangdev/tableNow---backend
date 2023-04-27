@@ -4,6 +4,7 @@ const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
     const {
       restaurantID,
+      tableID,
       guestName,
       guestPhone,
       dateOrder,
@@ -12,6 +13,7 @@ const createOrder = (newOrder) => {
       tableName,
       completed,
       cancelled,
+      orderMenuID
     } = newOrder;
     try {
       const checkOrder = await Order.findOne({
@@ -30,6 +32,7 @@ const createOrder = (newOrder) => {
 
       const createdOrder = await Order.create({
         restaurantID,
+        tableID,
         guestName,
         guestPhone,
         dateOrder,
@@ -38,6 +41,7 @@ const createOrder = (newOrder) => {
         tableName,
         completed,
         cancelled,
+        orderMenuID
       });
       if (createdOrder) {
         resolve({
