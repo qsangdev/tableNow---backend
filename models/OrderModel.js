@@ -6,6 +6,15 @@ const orderSchema = new mongoose.Schema(
       required: true,
       ref: "ProfileRestaurant",
     },
+    tableID: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Table",
+    },
+    orderMenuID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "OrderMenu",
+    },
     guestName: { type: String, required: true },
     guestPhone: { type: String, required: true },
     dateOrder: { type: String, required: true },
