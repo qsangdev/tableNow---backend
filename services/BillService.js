@@ -78,8 +78,8 @@ const getAllBill = () => {
 const getDetailsBill = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const bill = await Bill.findOne({
-        _id: id,
+      const bill = await Bill.find({
+        restaurantID: id,
       });
       if (bill === null) {
         resolve({
