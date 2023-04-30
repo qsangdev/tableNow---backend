@@ -7,8 +7,8 @@ const createProfileRestaurant = (newProfileRestaurant) => {
       restaurantName,
       restaurantAddress,
       restaurantTable,
-      restaurantDescribe,
       shiftTime,
+      restaurantDescribe,
       images,
     } = newProfileRestaurant;
     try {
@@ -26,8 +26,8 @@ const createProfileRestaurant = (newProfileRestaurant) => {
         restaurantName,
         restaurantAddress,
         restaurantTable,
-        restaurantDescribe,
         shiftTime,
+        restaurantDescribe,
         images,
       });
       if (createdProfileRestaurant) {

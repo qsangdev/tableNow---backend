@@ -6,6 +6,11 @@ const orderMenuSchema = new mongoose.Schema(
       required: true,
       ref: "Order",
     },
+    restaurantID: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "ProfileRestaurant",
+    },
     ordered: [
       {
         dishID: {
@@ -16,6 +21,7 @@ const orderMenuSchema = new mongoose.Schema(
         quantity: Number,
       },
     ],
+    done: { type: Boolean, default: false },
   },
   {
     timestamps: true,
