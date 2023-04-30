@@ -76,16 +76,6 @@ const updateProfileRestaurant = (id, data) => {
 const uploadImageRestaurant = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkProfileRestaurant = await ProfileRestaurant.findOne({
-        _id: id,
-      });
-      if (checkProfileRestaurant === null) {
-        resolve({
-          status: "ERR",
-          message: "The ProfileRestaurant is not defined",
-        });
-      }
-
       const updateProfileRestaurant = await ProfileRestaurant.findOneAndUpdate(
         { restaurantID: id },
         { $push: { images: data } },
@@ -156,18 +146,8 @@ const deleteProfileRestaurant = (id, data) => {
 const deleteImageRestaurant = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkProfileRestaurant = await ProfileRestaurant.findOne({
-        _id: id,
-      });
-      if (checkProfileRestaurant === null) {
-        resolve({
-          status: "ERR",
-          message: "The ProfileRestaurant is not defined",
-        });
-      }
-
       const updateProfileRestaurant = await ProfileRestaurant.updateOne(
-        { _id: id },
+        { restaurantID: id },
         {
           $pull: {
             images: data,
