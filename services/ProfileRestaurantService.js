@@ -7,8 +7,7 @@ const createProfileRestaurant = (newProfileRestaurant) => {
       restaurantName,
       restaurantAddress,
       restaurantTable,
-      openTime,
-      closeTime,
+      shiftTime,
       restaurantDescribe,
       images,
     } = newProfileRestaurant;
@@ -27,8 +26,7 @@ const createProfileRestaurant = (newProfileRestaurant) => {
         restaurantName,
         restaurantAddress,
         restaurantTable,
-        openTime,
-        closeTime,
+        shiftTime,
         restaurantDescribe,
         images,
       });
@@ -89,7 +87,7 @@ const uploadImageRestaurant = (id, data) => {
       }
 
       const updateProfileRestaurant = await ProfileRestaurant.findOneAndUpdate(
-        id,
+        { restaurantID: id },
         { $push: { images: data } },
         { new: true }
       );

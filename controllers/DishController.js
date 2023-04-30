@@ -107,8 +107,6 @@ const getResDish = async (req, res) => {
   }
 };
 
-
-
 const getDetailsDish = async (req, res) => {
   try {
     const profileID = req.params.id;
@@ -128,7 +126,6 @@ const getDetailsDish = async (req, res) => {
   }
 };
 
-
 const uploadImageDish = async (req, res) => {
   try {
     const profileId = req.params.id;
@@ -141,10 +138,7 @@ const uploadImageDish = async (req, res) => {
       });
     }
 
-    const response = await DishService.uploadImageDish(
-      profileId,
-      data
-    );
+    const response = await DishService.uploadImageDish(profileId, data);
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({
@@ -160,5 +154,5 @@ module.exports = {
   getAllDish,
   getResDish,
   getDetailsDish,
-  uploadImageDish
+  uploadImageDish,
 };

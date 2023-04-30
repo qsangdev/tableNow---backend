@@ -2,11 +2,13 @@ const OrderMenu = require("../models/OrderMenuModel");
 
 const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
-    const { orderID, ordered } = newOrder;
+    const { orderID, ordered, restaurantID, done } = newOrder;
     try {
       const createdOrder = await OrderMenu.create({
         orderID,
         ordered,
+        restaurantID,
+        done,
       });
       if (createdOrder) {
         resolve({
@@ -35,6 +37,24 @@ const updateOrder = (id, data) => {
           new: true,
         }
       );
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: updateOrder,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const updateStatusOrder = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateOrder = await OrderMenu.findByIdAndUpdate(id, data, {
+        new: true,
+      });
 
       resolve({
         status: "OK",
@@ -112,10 +132,36 @@ const deleteOrder = (id) => {
   });
 };
 
+const getResOrder = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const profile = await OrderMenu.find({
+        restaurantID: id,
+      });
+      if (profile === null) {
+        resolve({
+          status: "ERR",
+          message: "The profile is not defined",
+        });
+      }
+
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: profile,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createOrder,
   updateOrder,
+  updateStatusOrder,
   getAllOrder,
   getDetailsOrder,
   deleteOrder,
+  getResOrder,
 };

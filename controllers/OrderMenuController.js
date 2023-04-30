@@ -38,6 +38,25 @@ const updateOrder = async (req, res) => {
   }
 };
 
+const updateStatusOrder = async (req, res) => {
+  try {
+    const profileId = req.params.id;
+    const data = req.body;
+    if (!profileId) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileId is required",
+      });
+    }
+    const response = await OrderMenuService.updateStatusOrder(profileId, data);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 const getAllOrder = async (req, res) => {
   try {
     const response = await OrderMenuService.getAllOrder();
@@ -87,10 +106,31 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+const getResOrder = async (req, res) => {
+  try {
+    const profileID = req.params.id;
+    if (!profileID) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileID is required",
+      });
+    }
+
+    const response = await OrderMenuService.getResOrder(profileID);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   createOrder,
   updateOrder,
+  updateStatusOrder,
   getAllOrder,
   getDetailsOrder,
-  deleteOrder
+  deleteOrder,
+  getResOrder,
 };
