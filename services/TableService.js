@@ -155,7 +155,8 @@ const updateTableStatus = (id, data) => {
         { restaurantID: id, "tables._id": data[0]._id },
         {
           $set: {
-            "tables.$.status": data[0].status,
+            "tables.$.dateOrder": data[0].dateOrder,
+            "tables.$.timeOrder": data[0].timeOrder,
             "tables.$.orderID": data[0].orderID,
           },
         },

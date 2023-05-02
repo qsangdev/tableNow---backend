@@ -13,23 +13,9 @@ const createOrder = (newOrder) => {
       tableName,
       completed,
       cancelled,
-      orderMenuID
+      orderMenuID,
     } = newOrder;
     try {
-      const checkOrder = await Order.findOne({
-        guestName: guestName,
-        guestPhone: guestPhone,
-        timeOrder: timeOrder,
-        tableName: tableName,
-        cancelled: false,
-      });
-      if (checkOrder !== null) {
-        return resolve({
-          status: "ERR",
-          message: "The order is already",
-        });
-      }
-
       const createdOrder = await Order.create({
         restaurantID,
         tableID,
@@ -41,7 +27,7 @@ const createOrder = (newOrder) => {
         tableName,
         completed,
         cancelled,
-        orderMenuID
+        orderMenuID,
       });
       if (createdOrder) {
         resolve({

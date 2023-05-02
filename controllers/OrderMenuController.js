@@ -125,6 +125,28 @@ const getResOrder = async (req, res) => {
   }
 };
 
+const deleteOrderDish = async (req, res) => {
+  try {
+    const profileId = req.params.id;
+    const data = req.body.ordered;
+    if (!profileId) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "The profileId is required",
+      });
+    }
+    const response = await OrderMenuService.deleteOrderDish(
+      profileId,
+      data
+    );
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   createOrder,
   updateOrder,
@@ -133,4 +155,5 @@ module.exports = {
   getDetailsOrder,
   deleteOrder,
   getResOrder,
+  deleteOrderDish
 };
