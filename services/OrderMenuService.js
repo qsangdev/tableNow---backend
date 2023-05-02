@@ -156,6 +156,30 @@ const getResOrder = (id, data) => {
   });
 };
 
+const deleteOrderDish = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const updateOrder = await OrderMenu.updateOne(
+        { orderID: id },
+        {
+          $pull: {
+            ordered: {
+              dishID: data[0].dishID,
+            },
+          },
+        }
+      );
+      resolve({
+        status: "OK",
+        message: "DELETE SUCCESS",
+        data: updateOrder,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createOrder,
   updateOrder,
@@ -164,4 +188,5 @@ module.exports = {
   getDetailsOrder,
   deleteOrder,
   getResOrder,
+  deleteOrderDish,
 };

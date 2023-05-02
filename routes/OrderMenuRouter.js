@@ -9,5 +9,6 @@ router.get("/getAll", orderMenuController.getAllOrder);
 router.get("/get/:id", orderMenuController.getResOrder);
 router.get("/get-details/:id", orderMenuController.getDetailsOrder);
 router.delete("/delete/:id", orderMenuController.deleteOrder);
+router.post("/delete-dish/:id", orderMenuController.deleteOrderDish);
 
 module.exports = router;
