@@ -9,5 +9,6 @@ router.get("/get-details/:id", tableController.getDetailsTable);
 router.post("/delete/:id", tableController.deleteTable);
 router.post("/update-minmax/:id", tableController.updateTableMM);
 router.post("/update-status/:id", tableController.updateTableStatus);
+router.post("/delete-status/:id", tableController.deleteTableStatus);
 
 module.exports = router;

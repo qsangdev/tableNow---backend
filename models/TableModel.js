@@ -8,17 +8,19 @@ const tableSchema = new mongoose.Schema(
     },
     tables: [
       {
-        orderID: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "Order",
-        },
         shift: Number,
         name: String,
         minPeople: Number,
         maxPeople: Number,
-        dateOrder: String,
-        timeOrder: String,
+        status: [
+          {
+            orderID: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "Order",
+            },
+            dateOrder: String,
+          },
+        ],
       },
     ],
   },
