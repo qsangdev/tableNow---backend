@@ -22,6 +22,7 @@ const orderMenuSchema = new mongoose.Schema(
       },
     ],
     done: { type: Boolean, default: false },
+    deliver: { type: Boolean, default: false },
   },
   {
     timestamps: true,

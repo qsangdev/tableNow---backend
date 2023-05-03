@@ -2,13 +2,14 @@ const OrderMenu = require("../models/OrderMenuModel");
 
 const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
-    const { orderID, ordered, restaurantID, done } = newOrder;
+    const { orderID, ordered, restaurantID, done, deliver } = newOrder;
     try {
       const createdOrder = await OrderMenu.create({
         orderID,
         ordered,
         restaurantID,
         done,
+        deliver,
       });
       if (createdOrder) {
         resolve({
