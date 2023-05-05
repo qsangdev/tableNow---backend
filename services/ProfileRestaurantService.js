@@ -12,15 +12,6 @@ const createProfileRestaurant = (newProfileRestaurant) => {
       images,
     } = newProfileRestaurant;
     try {
-      const checkProfileRestaurant = await ProfileRestaurant.findOne({
-        restaurantName: restaurantName,
-      });
-      if (checkProfileRestaurant !== null) {
-        resolve({
-          status: "ERR",
-          message: "The ProfileRestaurant is already",
-        });
-      }
       const createdProfileRestaurant = await ProfileRestaurant.create({
         restaurantID,
         restaurantName,
